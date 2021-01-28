@@ -20,18 +20,13 @@ private const val TAG = "RepoListFragment"
 class RepoListFragment : Fragment() {
 
     private lateinit var repoList: Call<MutableList<Repo>>
+    private lateinit var adapter: RepoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initRetrofit()
 
-        val apiUrl = "https://api.github.com"
-        val retrofit = Retrofit.Builder()
-                .baseUrl(apiUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val gitService = retrofit.create(GitHubApi::class.java)
-        repoList = gitService.listRepos()
     }
 
     override fun onCreateView(
@@ -41,13 +36,14 @@ class RepoListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_repo_list, container, false)
         val recyclerView = view.findViewById(R.id.repo_list_rv) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
 
         repoList.enqueue(object : Callback<MutableList<Repo>> {
             override fun onResponse(call: Call<MutableList<Repo>>, response: Response<MutableList<Repo>>) {
                 Log.d(TAG, "${response.body()}")
-                val adapter = RepoAdapter(response.body() as List<Repo>)
+                adapter = RepoAdapter(requireContext(), response.body() as List<Repo>)
                 adapter.notifyDataSetChanged()
-                recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter = adapter
             }
 
@@ -61,5 +57,15 @@ class RepoListFragment : Fragment() {
     }
 
     //TODO fix getRepos method
+    private fun initRetrofit(){
+
+        val apiUrl = "https://api.github.com"
+        val retrofit = Retrofit.Builder()
+                .baseUrl(apiUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val gitService = retrofit.create(GitHubApi::class.java)
+        repoList = gitService.listRepos()
+    }
 
 }

@@ -15,9 +15,10 @@ class MainActivity : AppCompatActivity() {
 
         repoListFragment = RepoListFragment()
 
-        supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container,repoListFragment, "repoListFragment")
-                .commit()
-
+        if (supportFragmentManager.fragments.size == 0) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, repoListFragment, "repoListFragment")
+                    .commit()
+        }
     }
 }
