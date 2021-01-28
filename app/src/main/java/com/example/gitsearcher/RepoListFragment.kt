@@ -56,7 +56,6 @@ class RepoListFragment : Fragment() {
         return view
     }
 
-    //TODO fix getRepos method
     private fun initRetrofit(){
 
         val apiUrl = "https://api.github.com"

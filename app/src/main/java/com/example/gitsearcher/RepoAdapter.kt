@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class RepoAdapter(private val context: Context,private val repoList: List<Repo>) :  RecyclerView.Adapter<RepoAdapter.ViewHolder>(){
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -13,6 +14,12 @@ class RepoAdapter(private val context: Context,private val repoList: List<Repo>)
         val nameTv : TextView = view.findViewById(R.id.repo_list_item_name_tv)
         val ownerTv : TextView = view.findViewById(R.id.repo_list_item_owner_tv)
         val descTv : TextView = view.findViewById(R.id.repo_list_item_desc_tv)
+
+        init{
+            view.setOnClickListener {
+                Snackbar.make(it, "${nameTv.text}",Snackbar.LENGTH_SHORT).show()
+            }
+        }
 
     }
 
