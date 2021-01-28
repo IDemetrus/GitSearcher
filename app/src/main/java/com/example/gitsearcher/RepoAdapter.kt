@@ -24,8 +24,8 @@ class RepoAdapter(private val repoList: List<Repo>) :  RecyclerView.Adapter<Repo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.idTv.text = repoList[position].id
         holder.nameTv.text = repoList[position].name
-        holder.ownerTv.text = repoList[position].owner
-        holder.descTv.text = repoList[position].desc
+//        holder.ownerTv.text = repoList[position].owner
+        holder.descTv.text = repoList[position].description
     }
 
     override fun getItemCount() = repoList.size
