@@ -5,6 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface GitHubApi {
-    @GET("/repositories")
-    fun listRepos(): Call<MutableList<Repo>>
+    @GET("repositories")
+    suspend fun getRepos(): MutableList<Repo>
 }

@@ -6,26 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.gitsearcher.api.GitHubApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.coroutineContext
 
 private const val TAG = "RepoListFragment"
 
 class RepoListFragment : Fragment() {
 
-    private lateinit var repoList: Call<MutableList<Repo>>
+    private lateinit var listViewModel: RepoListViewModel
+
     private lateinit var adapter: RepoAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRL: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initRetrofit()
+        listViewModel = ViewModelProvider(this).get(RepoListViewModel::class.java)
 
     }
 
@@ -35,36 +42,30 @@ class RepoListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_repo_list, container, false)
-        val recyclerView = view.findViewById(R.id.repo_list_rv) as RecyclerView
+        recyclerView = view.findViewById(R.id.repo_list_rv) as RecyclerView
+        swipeRL = view.findViewById(R.id.refresh_layout) as SwipeRefreshLayout
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        getReposCall()
 
-        repoList.enqueue(object : Callback<MutableList<Repo>> {
-            override fun onResponse(call: Call<MutableList<Repo>>, response: Response<MutableList<Repo>>) {
-                Log.d(TAG, "${response.body()}")
-                adapter = RepoAdapter(requireContext(), response.body() as List<Repo>)
-                adapter.notifyDataSetChanged()
-                recyclerView.adapter = adapter
-            }
+        swipeRL.setOnRefreshListener {
+            Log.d(TAG, "Sending request...")
+            //TODO make request in background
 
-            override fun onFailure(call: Call<MutableList<Repo>>, t: Throwable) {
-                Log.d(TAG, "$t")
-            }
-        })
+            getReposCall()
 
+            Log.d(TAG, "Sent")
+            swipeRL.isRefreshing = false
+        }
 
         return view
     }
 
-    private fun initRetrofit(){
-
-        val apiUrl = "https://api.github.com"
-        val retrofit = Retrofit.Builder()
-                .baseUrl(apiUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val gitService = retrofit.create(GitHubApi::class.java)
-        repoList = gitService.listRepos()
+    private fun getReposCall() {
+        listViewModel.data.observe(viewLifecycleOwner, Observer {
+            adapter = RepoAdapter(requireContext(),it)
+            recyclerView.adapter = adapter
+        })
     }
 
 }
