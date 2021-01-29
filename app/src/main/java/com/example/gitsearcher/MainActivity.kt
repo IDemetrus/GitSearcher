@@ -8,11 +8,17 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 
 private const val TAG = "MainActivity"
+private const val HTML_URI = "HTML_URI"
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), RepoListFragment.Callbacks {
 
+    private lateinit var detailFragment: RepoDetailFragment
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        detailFragment = RepoDetailFragment()
 
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (currentFragment == null) {
@@ -25,9 +31,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), RepoListFragment
     }
 
     override fun onItemSelected(item: Repo) {
-        Toast.makeText(baseContext, "${item.name}", Toast.LENGTH_SHORT).show()
+
+        val args = Bundle().apply {
+            putSerializable(HTML_URI,item.html_url)
+        }
+        detailFragment.apply {
+            arguments = args
+        }
+
         supportFragmentManager.commit {
-            replace<RepoDetailFragment>(R.id.fragment_container)
+            replace(R.id.fragment_container,detailFragment)
             addToBackStack(null)
         }
     }
