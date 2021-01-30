@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitSearcher</string>
+    <string name="share_repo_s_link">Share repo\'s link</string>
 </resources>
