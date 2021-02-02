@@ -1,4 +1,4 @@
-package com.example.gitsearcher
+package com.example.gitsearcher.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import com.example.gitsearcher.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "RepoDetailFragment"
@@ -18,6 +20,7 @@ class RepoDetailFragment : Fragment() {
     private lateinit var webView: WebView
     private var repoUrl: String? = null
     private lateinit var progressBar: ProgressBar
+    private lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,7 @@ class RepoDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_repo_detail, container, false)
         progressBar = view.findViewById(R.id.repo_detail_progress)
+        fab = view.findViewById(R.id.repo_detail_fab)
 
         webView = view.findViewById(R.id.repo_detail_webview)
         webView.settings.javaScriptEnabled = true
@@ -50,27 +54,19 @@ class RepoDetailFragment : Fragment() {
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.settings_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_share_id -> {
-                val sentIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    if (repoUrl != null)
-                        putExtra(Intent.EXTRA_TEXT, repoUrl)
-                    else
-                        putExtra(Intent.EXTRA_TEXT, "https://github.com")
-                    type = "text/plain"
-                }
-                val shareIntent = Intent.createChooser(sentIntent, "Share repository link with..")
-                startActivity(shareIntent)
-                true
+    override fun onStart() {
+        super.onStart()
+        fab.setOnClickListener{
+            val sentIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                if (repoUrl != null)
+                    putExtra(Intent.EXTRA_TEXT, repoUrl)
+                else
+                    putExtra(Intent.EXTRA_TEXT, "https://github.com")
+                type = "text/plain"
             }
-            else -> return super.onOptionsItemSelected(item)
+            val shareIntent = Intent.createChooser(sentIntent, "Share repository link with..")
+            startActivity(shareIntent)
         }
     }
 }

@@ -1,8 +1,8 @@
-package com.example.gitsearcher
+package com.example.gitsearcher.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.gitsearcher.repository.Repository
+import com.example.gitsearcher.data.Repository
 import kotlinx.coroutines.Dispatchers
 
 class RepoListViewModel : ViewModel() {

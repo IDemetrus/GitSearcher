@@ -1,4 +1,4 @@
-package com.example.gitsearcher
+package com.example.gitsearcher.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.gitsearcher.R
+import com.example.gitsearcher.model.Repo
 
 private const val TAG = "MainActivity"
 private const val HTML_URI = "HTML_URI"

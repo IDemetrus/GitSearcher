@@ -6,10 +6,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RepoListFragment">
+    tools:context=".ui.RepoListFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/repo_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            style="@style/Widget.MaterialComponents.Toolbar"
+            app:navigationIcon="@drawable/github_32"
+            android:paddingStart="6dp"
+            android:background="@color/github_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/repo_list_progress"
@@ -24,11 +36,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/repo_list_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/repo_list_toolbar"
+            app:layout_constraintVertical_bias="1.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

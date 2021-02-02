@@ -1,4 +1,4 @@
-package com.example.gitsearcher.repository
+package com.example.gitsearcher.data
 
 import com.example.gitsearcher.api.RetrofitClient
 import com.example.gitsearcher.api.GitHubApi

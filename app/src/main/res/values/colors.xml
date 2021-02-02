@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="github_dark">#1B2129</color>
+    <color name="github_status">#000</color>
+    <color name="github_name">#1f6feb</color>
+
 </resources>

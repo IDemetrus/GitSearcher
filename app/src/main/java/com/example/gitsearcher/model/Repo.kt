@@ -1,4 +1,4 @@
-package com.example.gitsearcher
+package com.example.gitsearcher.model
 
 data class Repo(
     var id: String = "1",

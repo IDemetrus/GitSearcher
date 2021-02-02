@@ -1,4 +1,4 @@
-package com.example.gitsearcher
+package com.example.gitsearcher.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.gitsearcher.R
+import com.example.gitsearcher.model.Repo
+import com.example.gitsearcher.ui.RepoAdapter
 
 private const val TAG = "RepoListFragment"
 
