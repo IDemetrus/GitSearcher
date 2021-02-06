@@ -1,14 +1,13 @@
 package com.example.gitsearcher.model
 
-import androidx.versionedparcelable.ParcelField
-
 data class Repo(
     val id: String = "1",
-    val name : String = "First Repo",
+    val name: String = "First Repo",
     val owner: Owner? = null,
     val description: String = "example repo for testing",
     val html_url: String = "https://github.com/idemetrus/gitsearcher"
 )
+
 class Owner(
-        var login: String = ""
+    var login: String = ""
 )
