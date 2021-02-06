@@ -9,12 +9,15 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import com.example.gitsearcher.R
+import com.example.gitsearcher.other.Constants.GITHUB_DEFAULT_URL
+import com.example.gitsearcher.other.Constants.GITHUB_URI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "RepoDetailFragment"
-private const val HTML_URI = "HTML_URI"
 
+@AndroidEntryPoint
 class RepoDetailFragment : Fragment() {
 
     private lateinit var webView: WebView
@@ -24,7 +27,7 @@ class RepoDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repoUrl = arguments?.getSerializable(HTML_URI) as String
+        repoUrl = arguments?.getSerializable(GITHUB_URI) as String
         setHasOptionsMenu(true)
     }
 
@@ -49,7 +52,7 @@ class RepoDetailFragment : Fragment() {
         if (repoUrl != null) {
             webView.loadUrl(repoUrl!!)
         } else {
-            webView.loadUrl("https://github.com")
+            webView.loadUrl(GITHUB_DEFAULT_URL)
         }
         return view
     }
@@ -62,7 +65,7 @@ class RepoDetailFragment : Fragment() {
                 if (repoUrl != null)
                     putExtra(Intent.EXTRA_TEXT, repoUrl)
                 else
-                    putExtra(Intent.EXTRA_TEXT, "https://github.com")
+                    putExtra(Intent.EXTRA_TEXT, GITHUB_DEFAULT_URL)
                 type = "text/plain"
             }
             val shareIntent = Intent.createChooser(sentIntent, "Share repository link with..")
